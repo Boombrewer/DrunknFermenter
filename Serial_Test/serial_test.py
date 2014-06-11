@@ -8,6 +8,7 @@ port = '/dev/ttyS0'
 
 
 ard = serial.Serial(port,9600,timeout=5)
+time.sleep(2)  # wait for arduino
 
 i = 0
 
@@ -22,10 +23,10 @@ while (i < 4):
 		print ("Python value sent: ")
 		print (setTemp1)
 		ard.write(setTemp1)
-		time.sleep(7)
+		time.sleep(1)
 		
 		# Serial read section
-		msg = ard.read(ard.inWaiting()) #reads everything in the buffer
+		msg = ard.read(ard.inWaiting())
 		print ("Message from arduino: ")
 		print (msg)
 		i = i + 1
