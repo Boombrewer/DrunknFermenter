@@ -1,8 +1,20 @@
 // Serial test script
 
-int setTemp1 = 55;
-int setTemp2 = 50;
+int setTempCar1 = 55;
+int setTempCar2 = 50;
+int radioCar1 = 0;
+int radioCar2 = 0;
+int radioCar3 = 0;
 String readString;
+float inTemp = 0;
+float car1Temp = 0;
+float car2Temp = 0;
+float car3Temp = 0;
+int coolStatus = 0;
+int heat1Status = 0;
+int heat2Status = 0;
+int insideFanStatus = 0;
+int car3FanStatus = 0;
 
 void setup()
 {
@@ -13,75 +25,22 @@ void setup()
 
 void loop()
 {
-  while(!Serial.available()) {
-  }
-  // serial read section
-  while (Serial.available())
-  {
-    Serial.print("Set Temp 1: ");
-    Serial.println(setTemp1);
-    Serial.print("Set Temp 2: ");
-    Serial.println(setTemp2);
-    
-    if (Serial.available() >0)
-    {
-      char c = Serial.read();  //gets one byte from serial buffer
-      readString += c; //makes the string readString
-    }
-  }
-
-  if (readString.length() >=3)
-  {
-    if (readString[0] == 'S' && readString[1] == '1')
-    {
-      String set1 = readString.substring(2,4);
-      setTemp1 = set1.toInt();
-      //String setString;
-      //setString = String(setTemp1);
-
-      //Serial.print("Set Temp 1: ");
-      //Serial.println(setString);
-      //Serial.print("\n");
-    }
-  }
-
-  String setString1;
-  setString1 = String(setTemp1);
-  Serial.print("New Set Temp 1: ");
-  Serial.println(setString1);
-  Serial.print("\n");
-
-  if (readString.length() >=8)
-  {
-    if (readString[4] == 'S' && readString[5] == '2')
-    {
-      String set2 = readString.substring(6,8);
-      setTemp2 = set2.toInt();
-    }
-  }
-
-  String setString2;
-  setString2 = String(setTemp2);
-  Serial.print("New Set Temp 2: ");
-  Serial.println(setString2);
-  Serial.print("\n");
-
-  if (readString.length() >3)
-  {
-    Serial.println("Arduino received: ");  
-    Serial.println(readString); //see what was received
-    readString = "";
-  }
-
-  delay(500);
-
-  // serial write section
-
-
-  Serial.flush();
+  String receive(readString);  //function to receive info from python
+  receiveProcess();  //processes the received string to update the global variables
+  
+  /// do some stuff
+  inTemp = 73.245;
+  car1Temp = 72.3456;
+  car2Temp = 65.2346;
+  car3Temp = 87.56232;
+  coolStatus = 1;
+  heat1Status = 0;
+  heat2Status = 1;
+  insideFanStatus = 1;
+  car3FanStatus = 1;
+  
+  void send();  // sends info to python
 }
-
-
 
 
 

@@ -28,7 +28,7 @@ int coolStatus = 0;
 int heat1Status = 0;
 int heat2Status = 0;
 int insideFanStatus = 0;
-int recircFanStatus = 0;
+int car3FanStatus = 0;
 
 OneWire oneWire(ONE_WIRE_BUS);  //setup a OneWire instance to communicate to device
 
@@ -48,7 +48,7 @@ void setup()
 {
 
   Serial.begin(9600);  // initialize serial communications at 9600 bps
-  
+
   // sets pin modes for relays
   pinMode (relay1Heat, OUTPUT);  
   pinMode (relay2Heat, OUTPUT); 
@@ -71,14 +71,14 @@ void loop()
   setTempCar1 = 45;
   Serial.print("This is initial set temp 1: ");
   Serial.println(setTempCar1);
-  
+
   // run functions to retrieve carboy set temps
   setTempCar1 = getCar1SetTemp(setTempCar1);
   setTempCar2 = getCar2SetTemp(setTempCar2);
-  
+
   sensors.requestTemperatures();  //requests temperature from sensors
 
-  float inTempC = sensors.getTempC(insideTemp);
+    float inTempC = sensors.getTempC(insideTemp);
   inTemp = (DallasTemperature::toFahrenheit(inTempC));
   float car1TempC = sensors.getTempC(carboy1Temp);
   car1Temp = (DallasTemperature::toFahrenheit(car1TempC));
@@ -86,7 +86,7 @@ void loop()
   car2Temp = (DallasTemperature::toFahrenheit(car2TempC));
   float car3TempC = sensors.getTempC(carboy3Temp);
   car3Temp = (DallasTemperature::toFahrenheit(car3TempC));
-  
+
 
   if (inTemp < setTempCar1 - 10  && inTemp < setTempCar2 - 10)  // keeps freezer from getting too far below both set temps
   {
@@ -156,32 +156,18 @@ void loop()
     digitalWrite(recircFans, HIGH);
     recircFanStatus = 1;
   }
-    else
-    {
-      digitalWrite(recircFans, LOW);
-      recircFanStatus = 0;
-    }
-  
+  else
+  {
+    digitalWrite(recircFans, LOW);
+    recircFanStatus = 0;
+  }
+
   delay(1000);
-  
+
   Serial.print("This is set temp 1: ");
   Serial.println(setTempCar1);
 
-    
-  //void sendArdData();  
 }
 
-void sendArdData(float inTemp, float car1Temp, float car2Temp, float car3Temp, int coolStatus, int heat1Status, 
-int heat2Status, int insideFanStatus, int recircFanStatus)
-{
-  Serial.println(inTemp, 2);
-  Serial.print('; ');
-  Serial.println(car1Temp, 2);
-  Serial.println(car2Temp, 2);
-  Serial.println(car3Temp, 2);
-  Serial.print(coolStatus);
-  Serial.print(heat1Status);
-  Serial.print(heat2Status);
-  Serial.print(insideFanStatus);
-  Serial.print(recircFanStatus);
-}
+
+
