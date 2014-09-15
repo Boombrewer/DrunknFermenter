@@ -20,10 +20,6 @@ const int recircFans = 13;  // controls 2 recirc fans near carboy 3  (assuming 5
 //Define global variables
 int setTempCar1 = 55;
 int setTempCar2 = 55;
-int radioCar1 = 0;
-int radioCar2 = 0;
-int radioCar3 = 0;
-String readString;
 float inTemp = 0;
 float car1Temp = 0;
 float car2Temp = 0;
@@ -72,9 +68,13 @@ void setup()
 
 void loop()
 {
+  setTempCar1 = 45;
+  Serial.print("This is initial set temp 1: ");
+  Serial.println(setTempCar1);
+
   // run functions to retrieve carboy set temps
-  String receive(readString);  //function to receive info from python
-  receiveProcess();  //processes the received string to update the global variables
+  setTempCar1 = getCar1SetTemp(setTempCar1);
+  setTempCar2 = getCar2SetTemp(setTempCar2);
 
   sensors.requestTemperatures();  //requests temperature from sensors
 
@@ -154,35 +154,18 @@ void loop()
   if (car3Temp >= inTemp + tempDiff3 || car3Temp <= inTemp - tempDiff3)
   {
     digitalWrite(recircFans, HIGH);
-    car3FanStatus = 1;
+    recircFanStatus = 1;
   }
   else
   {
     digitalWrite(recircFans, LOW);
-    car3FanStatus = 0;
+    recircFanStatus = 0;
   }
 
-  //Send temps and status updates to python
-  Serial.print("iT");
-  Serial.print(inTemp,1);
-  Serial.print(";C1");
-  Serial.print(car1Temp,1);
-  Serial.print(";C2");
-  Serial.print(car2Temp,1);
-  Serial.print(";C3");
-  Serial.print(car3Temp,1);
-  Serial.print(";CS");
-  Serial.print(coolStatus);
-  Serial.print(";H1");
-  Serial.print(heat1Status);
-  Serial.print(";H2");
-  Serial.print(heat2Status);
-  Serial.print(";iF");
-  Serial.print(insideFanStatus);
-  Serial.print(";c3");
-  Serial.println(car3FanStatus);
-  
-  delay(500);
+  delay(1000);
+
+  Serial.print("This is set temp 1: ");
+  Serial.println(setTempCar1);
 
 }
 

@@ -25,9 +25,11 @@ void setup()
 
 void loop()
 {
-  String receive(readString);  //function to receive info from python
-  receiveProcess();  //processes the received string to update the global variables
+  Serial.flush();
   
+  //String receive(readString);  //function to receive info from python
+  //receiveProcess();  //processes the received string to update the global variables
+
   /// do some stuff
   inTemp = 73.245;
   car1Temp = 72.3456;
@@ -38,10 +40,35 @@ void loop()
   heat2Status = 1;
   insideFanStatus = 1;
   car3FanStatus = 1;
-  
-  void send();  // sends info to python
+
+  String iTemp = String((int)inTemp);
+  String c1Temp = String((int)car1Temp);
+  String c2Temp = String((int)car2Temp);
+  String c3Temp = String((int)car3Temp);
+  String cStatus = String(coolStatus);
+  String h1Status = String(heat1Status);
+  String h2Status = String(heat2Status);
+  String iFStatus = String(insideFanStatus);
+  String c3FStatus = String(car3FanStatus);
+
+  //hangs until serial is available
+  while(!Serial.available()) {
+  }
+
+  while (Serial.available())  //only runs while serial connection is available
+  {
+    Serial.flush();
+
+    Serial.print("Temps and Status: ");
+    Serial.print(";");
+    Serial.print(iTemp);
+    Serial.print(";");
+    Serial.print(c1Temp);
+    Serial.print(";");
+    Serial.print(c2Temp);
+    Serial.print(";");
+    Serial.println(c3Temp);
+  }
+
 }
-
-
-
 
