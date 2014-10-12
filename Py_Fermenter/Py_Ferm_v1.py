@@ -22,7 +22,7 @@ cursor = db.cursor()
 # Create tables if they don't exist
 
 sql_set_temp = """CREATE TABLE IF NOT EXISTS 'set_temp' (
-		'DATE_TIME' DATETIME NOT NULL,
+		'id' int(1) NOT NULL,
 		'SET_TEMP_1' float(3,1) NOT NULL,
 		'SET_TEMP_2' float(3,1) NOT NULL,
 		PRIMARY KEY ('DATE_TIME'))"""
@@ -86,8 +86,8 @@ try:
 	
 # Pass temps & status to db
 
-insert_temp = "INSERT INTO current_temp (DATE_TIME, IN_TEMP, CAR_1_TEMP, CAR_2_TEMP,\
-		CAR_3_TEMP) VALUES (%d, %d, %d, %d, %d) % (NOW(), i_temp, c_1_temp, c_2_temp, c_3_temp)"
+insert_temp = """INSERT INTO current_temp(DATE_TIME, IN_TEMP, CAR_1_TEMP, CAR_2_TEMP, 
+		CAR_3_TEMP) VALUES (%d, %d, %d, %d, %d) % (NOW(), i_temp, c_1_temp, c_2_temp, c_3_temp)"""
 				
 insert_status = """INSERT INTO 'status' (DATE_TIME, COOL_STATUS, HEAT_1_STATUS,
 		HEAT_2_STATUS,IN_FAN_STATUS, CAR_3_FAN) VALUES (NOW(), $c_status,
